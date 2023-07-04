@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Submit</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Form Submit</h1>
+  <form action="/form-submit/<%= formId %>" method="POST">
+    <% if (fields && fields.length) { %>
+      <% fields.forEach((field) => { %>
+        <div class="field">
+          <label for="<%= field.inputName %>"><%= field.fieldLabel %>:</label>
+          <input type="<%= field.inputType %>" id="<%= field.inputName %>" name="<%= field.inputName %>" required>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No fields found.</p>
+    <% } %>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

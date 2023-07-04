@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Builder</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Form Builder</h1>
+  <form action="/form-builder" method="POST">
+    <div id="fields-container">
+      <div class="field">
+        <label for="field-label">Field Label:</label>
+        <input type="text" id="field-label" name="fieldLabel" required>
+        <label for="input-name">Input Name:</label>
+        <input type="text" id="input-name" name="inputName" required>
+        <label for="input-type">Input Type:</label>
+        <select id="input-type" name="inputType">
+          <option value="text">Text</option>
+          <option value="color">Color</option>
+          <option value="date">Date</option>
+          <option value="email">Email</option>
+          <option value="tel">Telephone</option>
+          <option value="number">Number</option>
+        </select>
+        <button type="button" onclick="addField()">Add Field</button>
+      </div>
+    </div>
+    <label for="form-name">Form Name:</label>
+    <input type="text" id="form-name" name="formName" required>
+    <button type="submit">Save</button>
+  </form>
+
+  <script>
+    function addField() {
+      const fieldLabel = document.getElementById('field-label').value;
+      const inputName = document.getElementById('input-name').value;
+      const inputType = document.getElementById('input-type').value;
+
+      const fieldElement = document.createElement('div');
+      fieldElement.classList.add('field');
+
+      const labelElement = document.createElement('label');
+      labelElement.textContent = fieldLabel;
+      fieldElement.appendChild(labelElement);
+
+      const inputElement = document.createElement('input');
+      inputElement.type = inputType;
+      inputElement.name = inputName;
+      fieldElement.appendChild(inputElement);
+
+      const fieldsContainer = document.getElementById('fields-container');
+      fieldsContainer.appendChild(fieldElement);
+    }
+    function saveForm() {
+      const formName = document.getElementById('form-name').value;
+
+      const fieldsContainer = document.getElementById('fields-container');
+      const fields = Array.from(fieldsContainer.getElementsByClassName('field'));
+      const fieldsData = fields.map(field => {
+        const fieldLabel = field.getElementsByTagName('label')[0].textContent;
+        const inputName = field.getElementsByTagName('input')[0].name;
+        const inputType = field.getElementsByTagName('input')[0].type;
+
+        return { fieldLabel, inputName, inputType };
+      });
+
+      const formData = {
+        formName: formName,
+        fields: fieldsData
+      };
+
+      // Send the form data to the server
+      fetch('/form-builder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        // Handle the response from the server
+        // ...
+      })
+      .catch(error => {
+        // Handle any errors that occur
+        // ...
+      });
+    }
+  </script>
+</body>
+</html>

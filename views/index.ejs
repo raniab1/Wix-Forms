@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Manager</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <h1>Form Manager</h1>
+  <div id="forms-list">
+    <h2>All Forms</h2>
+    <table>
+      <tr>
+        <th>Form ID</th>
+        <th>Form Name</th>
+        <th>Number of Submissions</th>
+        <th>Submit Form</th>
+        <th>View Submissions</th>
+      </tr>
+      <% forms.forEach((form) => { %>
+        <tr>
+          <td><%= form.id %></td>
+          <td><%= form.name %></td>
+          <td><%= form.submissions %></td>
+          <td><a href="/form-submit/<%= form.id %>">Submit</a></td>
+          <td><a href="/form-submissions/<%= form.id %>">View</a></td>
+        </tr>
+      <% }); %>
+    </table>
+  </div>
+  <a href="/form-builder">Create New Form</a>
+</body>
+</html>
